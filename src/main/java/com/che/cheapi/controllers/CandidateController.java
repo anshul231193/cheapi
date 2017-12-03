@@ -25,7 +25,7 @@ import com.che.cheapi.service.UserService;
 import com.che.cheapi.util.Constants;
 
 @RestController
-@RequestMapping(Constants.API_URL)
+@RequestMapping(Constants.API_URL+Constants.API_CANDIDATES)
 public class CandidateController {
 	
 	private static final Logger LOGGER = LoggerFactory.getLogger(UserController.class);
@@ -51,7 +51,7 @@ public class CandidateController {
 		return "Successful Registeration";
     }
     
-    @RequestMapping(value=Constants.API_CANDIDATES,method=RequestMethod.GET)
+    @RequestMapping(method=RequestMethod.GET)
     @ResponseBody
     public List<Candidate> getAllCandidates(){
     	
@@ -60,9 +60,22 @@ public class CandidateController {
     	return candidates;
     }
     
-    @RequestMapping(value=Constants.API_CANDIDATES+"/{id}",method=RequestMethod.GET)
+    @RequestMapping(value="/{id}",method=RequestMethod.GET)
     @ResponseBody
     public Candidate getCandidateById(@PathVariable("id")Long id){
     	return candidateService.findOne(id);
     }
+    
+    @RequestMapping(value="/delete/{id}",method=RequestMethod.GET)
+    @ResponseBody
+    public String deleteCandidateById(@PathVariable("id")Long id){
+    	try{
+    		candidateService.delete(id);
+    	}catch(Exception e){
+    		e.printStackTrace();
+    		return "Not Deleted";
+    	}
+    	return "Deleted Successfully";
+    }
+    
 }
