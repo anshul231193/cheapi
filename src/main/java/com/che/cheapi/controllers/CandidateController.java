@@ -78,4 +78,16 @@ public class CandidateController {
     	return "Deleted Successfully";
     }
     
+    @RequestMapping(value="/update",method=RequestMethod.POST)
+    @ResponseBody
+    public String updateCandidate(Candidate candidate){
+    	try{
+    		candidateService.saveOrUpdate(candidate);
+    	}catch(Exception e){
+    		e.printStackTrace();
+    		return "Not Updated";
+    	}
+    	return "Updated Successfully";
+    }
+    
 }
