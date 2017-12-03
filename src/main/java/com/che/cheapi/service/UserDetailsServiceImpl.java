@@ -84,8 +84,8 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         }
 
         @Override
-        public String getFullname() {
-            return user.getFullname();
+        public String getName() {
+            return user.getName();
         }
     }
 }

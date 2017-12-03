@@ -36,13 +36,16 @@ public class AuthController {
 
 	@PostMapping("/register")
 	@ResponseBody
-	public String register(User user){
+	public String register(User user, String role){
 		try{
 			LOGGER.info("Start register user: {}", user);
 			
 			user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
 	        List<Role> roles = new ArrayList<>();
-	        roles.add(roleService.findRole(1));
+	        if(role.equals("USER"))
+	        	roles.add(roleService.findRole(1));
+	        else if(role.equals("ADMIN"))
+	        	roles.add(roleService.findRole(2));
 	        user.setRoles(roles);
 	        authService.register(user);
 		}catch(Exception e){

@@ -16,11 +16,11 @@ public class User extends BaseEntity{
 	private static final long serialVersionUID = 1L;
 
     @NotNull
-    @Column
+    @Column(unique=true)
     private String email;
 
     @NotNull
-    @Column
+    @Column(unique=true)
     private String username;
 
     @NotNull
@@ -31,9 +31,12 @@ public class User extends BaseEntity{
     private boolean enabled;
 
     @Column
-    private String fullname;
+    private String name;
 
-    @JsonIgnore
+    @Column(unique=true)
+    private String skypeId;
+
+	@JsonIgnore
     @ManyToMany(fetch = FetchType.EAGER) // cascade = {CascadeType.ALL}
     @JoinTable(name = "user_roles",
             joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id")},
@@ -55,7 +58,7 @@ public class User extends BaseEntity{
         this.email = user.getEmail();
         this.password = user.getPassword();
         this.roles = user.getRoles();
-        this.fullname = user.getFullname();
+        this.name = user.getName();
     }
 
     public User(String email, String username, String password, List<Role> roles) {
@@ -70,15 +73,23 @@ public class User extends BaseEntity{
         this.username = username;
         this.password = new BCryptPasswordEncoder().encode(password);
         this.enabled = enabled;
-        this.fullname = fullname;
+        this.name = fullname;
     }
 
-    public String getFullname() {
-        return fullname;
+    public String getSkypeId() {
+		return skypeId;
+	}
+
+	public void setSkypeId(String skypeId) {
+		this.skypeId = skypeId;
+	}
+
+    public String getName() {
+        return name;
     }
 
-    public void setFullname(String fullname) {
-        this.fullname = fullname;
+    public void setName(String fullname) {
+        this.name = fullname;
     }
 
     public boolean isEnabled() {
