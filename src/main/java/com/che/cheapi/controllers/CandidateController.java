@@ -82,7 +82,12 @@ public class CandidateController {
     @ResponseBody
     public String updateCandidate(Candidate candidate){
     	try{
-    		candidateService.saveOrUpdate(candidate);
+    		Candidate newCandidate = candidateService.findOne(candidate.getId());
+    		if(candidate!=null){
+        		candidateService.saveOrUpdate(candidate);
+    		}else{
+    			return "User Doesn't exists";
+    		}
     	}catch(Exception e){
     		e.printStackTrace();
     		return "Not Updated";
